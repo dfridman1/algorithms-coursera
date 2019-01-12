@@ -1,21 +1,13 @@
 import argparse
 import numpy as np
-import time
 from collections import namedtuple
+
+from algorithms.utils import timedcall
 
 np.random.seed(42)
 
 
 Point = namedtuple('Point', 'x y')
-
-
-def timedcall(f):
-    def g(*args, **kwargs):
-        start = time.process_time()
-        result = f(*args, **kwargs)
-        print('{} took {} seconds.'.format(repr(f.__name__), time.process_time() - start))
-        return result
-    return g
 
 
 @timedcall

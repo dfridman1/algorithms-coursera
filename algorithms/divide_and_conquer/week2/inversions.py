@@ -1,13 +1,20 @@
 import argparse
 
+from algorithms.utils import timedcall
 
 
+@timedcall
 def count_inversions(array):
+    _, inversions = _count_inversions(array)
+    return inversions
+
+
+def _count_inversions(array):
     if len(array) < 2:
         return array, 0
     mid = len(array) // 2
-    left, left_inversions = count_inversions(array[:mid])
-    right, right_inversions = count_inversions(array[mid:])
+    left, left_inversions = _count_inversions(array[:mid])
+    right, right_inversions = _count_inversions(array[mid:])
     array, cross_inversions = merge(left, right)
     return array, left_inversions + right_inversions + cross_inversions
 
@@ -32,6 +39,7 @@ def merge(left, right):
     return array, inversions
 
 
+@timedcall
 def count_inversions_naive(array):
     inversions = 0
     for j in range(len(array)):
@@ -55,7 +63,7 @@ def parse_args():
 def main():
     args = parse_args()
     data = read_data(args.in_file)
-    _, inversions = count_inversions(data)
+    inversions = count_inversions(data)
     print(inversions)
 
 

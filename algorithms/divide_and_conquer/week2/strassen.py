@@ -1,17 +1,8 @@
 import argparse
-import time
 import numpy as np
 np.random.seed(42)
 
-
-def timedcall(f):
-    def g(*args, **kwargs):
-        start = time.process_time()
-        result = f(*args, **kwargs)
-        g.elapsed = time.process_time() - start
-        print('{} took {} seconds.'.format(repr(f.__name__), g.elapsed))
-        return result
-    return g
+from algorithms.utils import timedcall
 
 
 @timedcall
@@ -91,7 +82,7 @@ def main():
     x, y = random_matrices(n=args.n, max_value=args.max_value)
     p1 = naive_multiply(x, y)
     p2 = strassen_multiply(x, y, leaf_size=args.leaf_size)
-    print(np.array_equal(p1, p2))
+    assert np.array_equal(p1, p2)
 
 
 if __name__ == '__main__':
