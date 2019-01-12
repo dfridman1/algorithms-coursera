@@ -27,13 +27,11 @@ def _closest_pair(p_x, p_y, leaf_size):
     l_x, r_x = p_x[:mid], p_x[mid:]
     l_y, r_y = _decompose(p_y, pivot=r_x[0].x)
 
-    points = []
-    pair = _closest_pair(l_x, l_y, leaf_size=leaf_size)
-    if pair is not None:
-        points.append(pair)
-    pair = _closest_pair(r_x, r_y, leaf_size=leaf_size)
-    if pair is not None:
-        points.append(pair)
+    points = [
+        _closest_pair(l_x, l_y, leaf_size=leaf_size),
+        _closest_pair(r_x, r_y, leaf_size=leaf_size)
+    ]
+    points = list(filter(None, points))
     delta = min(map(lambda pair: distance(*pair), points))
     pair = _closest_split_pair(p_x, p_y, delta=delta)
     if pair is not None:
